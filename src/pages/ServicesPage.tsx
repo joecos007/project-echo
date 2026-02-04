@@ -1,61 +1,148 @@
-import { motion } from "framer-motion";
-import { RiUserStarLine, RiPhoneLine, RiMailLine, RiFileList3Line } from "@remixicon/react";
+import { useEffect, useRef } from "react";
+import { RiUserStarLine, RiPhoneLine, RiMailLine, RiFileList3Line, RiArrowRightLine } from "@remixicon/react";
+import { Link } from "react-router-dom";
+import { gsap } from "@/lib/gsap";
+import { TextReveal, FadeInView, MagneticButton } from "@/components/animations";
 
 const SERVICES = [
     {
         title: "Virtual Assistants",
         description: "Professional support for your daily operations. Our VAs handle admin tasks so you can focus on strategy and growth.",
         icon: RiUserStarLine,
-        tasks: ["Email Management", "Calendar Scheduling", "Data Entry", "Research", "Bookkeeping"]
+        tasks: ["Email Management", "Calendar Scheduling", "Data Entry", "Research", "Bookkeeping"],
+        color: "regal-purple"
     },
     {
         title: "Virtual Agents",
         description: "Sales and customer-facing specialists who represent your brand with excellence. Drive revenue and build relationships.",
         icon: RiPhoneLine,
-        tasks: ["Lead Generation", "Appointment Setting", "Customer Support", "Sales Outreach", "Follow-ups"]
+        tasks: ["Lead Generation", "Appointment Setting", "Customer Support", "Sales Outreach", "Follow-ups"],
+        color: "neon-quill"
     },
     {
         title: "Campaign Specialists",
         description: "Marketing and outreach experts who execute campaigns across channels. Scale your marketing without scaling your team.",
         icon: RiMailLine,
-        tasks: ["Social Media", "Email Campaigns", "Content Creation", "Market Research", "Reporting"]
+        tasks: ["Social Media", "Email Campaigns", "Content Creation", "Market Research", "Reporting"],
+        color: "gilt-gold"
     },
     {
         title: "Back-Office Support",
         description: "Operational backbone services that keep your business running smoothly behind the scenes.",
         icon: RiFileList3Line,
-        tasks: ["Document Processing", "CRM Management", "Inventory Tracking", "Order Processing", "Quality Assurance"]
+        tasks: ["Document Processing", "CRM Management", "Inventory Tracking", "Order Processing", "Quality Assurance"],
+        color: "data-crimson"
     }
 ];
 
 export function ServicesPage() {
+    const horizontalRef = useRef<HTMLDivElement>(null);
+    const cardsRef = useRef<HTMLDivElement>(null);
+
+    // Horizontal scroll animation
+    useEffect(() => {
+        if (!horizontalRef.current || !cardsRef.current) return;
+
+        const cards = cardsRef.current;
+        const totalWidth = cards.scrollWidth;
+        const viewportWidth = window.innerWidth;
+
+        const ctx = gsap.context(() => {
+            const mm = gsap.matchMedia();
+
+            // Desktop: horizontal scroll
+            mm.add("(min-width: 768px)", () => {
+                // Pin the section and scroll the cards horizontally
+                const horizontalTween = gsap.to(cards, {
+                    x: -(totalWidth - viewportWidth),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: horizontalRef.current,
+                        pin: true,
+                        scrub: 1,
+                        end: () => `+=${totalWidth}`,
+                        invalidateOnRefresh: true,
+                    },
+                });
+
+                // Scale cards as they reach center
+                gsap.utils.toArray<HTMLElement>(".service-card").forEach((card) => {
+                    gsap.fromTo(
+                        card,
+                        { scale: 0.9, opacity: 0.7 },
+                        {
+                            scale: 1,
+                            opacity: 1,
+                            scrollTrigger: {
+                                trigger: card,
+                                containerAnimation: horizontalTween, // Use the tween directly
+                                start: "left 80%",
+                                end: "left 20%",
+                                scrub: true,
+                            },
+                        }
+                    );
+                });
+            });
+
+            // Mobile: vertical scroll with stagger
+            mm.add("(max-width: 767px)", () => {
+                gsap.fromTo(
+                    ".service-card",
+                    { y: 60, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        stagger: 0.2,
+                        scrollTrigger: {
+                            trigger: cards,
+                            start: "top 80%",
+                            end: "bottom 20%",
+                            toggleActions: "play none none none",
+                        },
+                    }
+                );
+            });
+
+            return () => mm.revert();
+        }, horizontalRef);
+
+        return () => ctx.revert();
+    }, []);
+
     return (
         <div className="pt-24 min-h-screen bg-background text-foreground">
             {/* HERO */}
             <section className="text-center py-20 px-4 bg-gradient-to-b from-regal-purple/10 to-transparent">
-                <motion.h1
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="font-display text-6xl md:text-8xl text-neon-quill drop-shadow-[0_0_10px_rgba(0,255,157,0.3)] mb-6"
-                >
+                <TextReveal type="char" className="font-display text-6xl md:text-8xl text-neon-quill drop-shadow-[0_0_10px_rgba(0,255,157,0.3)] mb-6">
                     Our Services
-                </motion.h1>
-                <p className="font-mono text-muted-foreground max-w-2xl mx-auto">
-                    Comprehensive virtual workforce solutions tailored to your business needs.
-                </p>
+                </TextReveal>
+                <FadeInView delay={0.5}>
+                    <p className="font-mono text-muted-foreground max-w-2xl mx-auto">
+                        Comprehensive virtual workforce solutions tailored to your business needs.
+                    </p>
+                </FadeInView>
             </section>
 
-            {/* SERVICE CARDS */}
-            <section className="max-w-7xl mx-auto px-6 pb-32">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    {SERVICES.map((service, index) => (
-                        <motion.div
+            {/* HORIZONTAL SCROLL GALLERY */}
+            <section ref={horizontalRef} className="relative overflow-hidden py-20">
+                <div className="mb-12 text-center">
+                    <h2 className="font-display text-4xl text-gilt-gold mb-4">What We Offer</h2>
+                    <p className="font-mono text-sm text-muted-foreground">← Scroll to explore →</p>
+                </div>
+
+                <div
+                    ref={cardsRef}
+                    className="flex gap-8 px-6 md:flex-row flex-col"
+                    style={{ width: "max-content" }}
+                >
+                    {SERVICES.map((service) => (
+                        <div
                             key={service.title}
-                            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="glass-panel p-10 border-l-4 border-l-regal-purple hover:border-l-neon-quill transition-all group"
+                            className="service-card glass-panel p-10 w-[500px] flex-shrink-0 border-l-4 hover:border-l-neon-quill transition-all group"
+                            style={{
+                                borderLeftColor: `hsl(var(--${service.color}))`,
+                            }}
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <h3 className="font-display text-4xl text-foreground group-hover:text-neon-quill transition-colors">
@@ -78,7 +165,7 @@ export function ServicesPage() {
                                     ))}
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </section>
@@ -86,35 +173,61 @@ export function ServicesPage() {
             {/* HIRING PROCESS */}
             <section className="py-24 bg-velvet-navy border-t border-white/5">
                 <div className="max-w-4xl mx-auto px-6 text-center">
-                    <h2 className="font-display text-4xl text-gilt-gold mb-12">How It Works</h2>
+                    <FadeInView>
+                        <h2 className="font-display text-4xl text-gilt-gold mb-12">How It Works</h2>
+                    </FadeInView>
+
                     <div className="relative flex flex-col md:flex-row justify-between items-center gap-8">
-                        {[1, 2, 3, 4].map((num) => (
-                            <div key={num} className="relative z-10 w-16 h-16 rounded-full bg-regal-purple border-2 border-neon-quill flex items-center justify-center font-display text-2xl font-bold">
-                                {num}
-                            </div>
+                        {[
+                            { num: 1, label: "Tell Us Your Needs" },
+                            { num: 2, label: "We Match Talent" },
+                            { num: 3, label: "Trial Period" },
+                            { num: 4, label: "Ongoing Support" }
+                        ].map(({ num, label }, index) => (
+                            <FadeInView key={num} direction="up" delay={index * 0.15}>
+                                <div className="flex flex-col items-center gap-4">
+                                    <div className="relative z-10 w-16 h-16 rounded-full bg-regal-purple border-2 border-neon-quill flex items-center justify-center font-display text-2xl font-bold">
+                                        {num}
+                                    </div>
+                                    <div className="font-mono text-sm text-muted-foreground">{label}</div>
+                                </div>
+                            </FadeInView>
                         ))}
                         {/* Connecting Line */}
                         <div className="absolute top-8 left-0 w-full h-1 bg-white/10 hidden md:block z-0" />
-                    </div>
-                    <div className="flex flex-col md:flex-row justify-between mt-8 text-sm font-mono text-muted-foreground">
-                        <div className="w-full md:w-1/4">Tell Us Your Needs</div>
-                        <div className="w-full md:w-1/4">We Match Talent</div>
-                        <div className="w-full md:w-1/4">Trial Period</div>
-                        <div className="w-full md:w-1/4">Ongoing Support</div>
                     </div>
                 </div>
             </section>
 
             {/* INDUSTRIES */}
             <section className="py-20 px-6 max-w-6xl mx-auto">
-                <h2 className="font-display text-3xl text-center text-foreground mb-12">Industries We Serve</h2>
+                <FadeInView>
+                    <h2 className="font-display text-3xl text-center text-foreground mb-12">Industries We Serve</h2>
+                </FadeInView>
                 <div className="flex flex-wrap justify-center gap-4">
-                    {["E-commerce", "Real Estate", "Healthcare", "Tech Startups", "Marketing Agencies", "Legal", "Finance", "Education", "Hospitality"].map((industry) => (
-                        <span key={industry} className="px-6 py-3 bg-white/5 rounded-full text-sm font-mono text-gray-300 border border-white/10 hover:border-neon-quill/50 transition-colors">
-                            {industry}
-                        </span>
+                    {["E-commerce", "Real Estate", "Healthcare", "Tech Startups", "Marketing Agencies", "Legal", "Finance", "Education", "Hospitality"].map((industry, index) => (
+                        <FadeInView key={industry} delay={index * 0.05} direction="up">
+                            <span className="px-6 py-3 bg-white/5 rounded-full text-sm font-mono text-gray-300 border border-white/10 hover:border-neon-quill/50 transition-colors cursor-default">
+                                {industry}
+                            </span>
+                        </FadeInView>
                     ))}
                 </div>
+            </section>
+
+            {/* CTA */}
+            <section className="py-32 text-center bg-gradient-to-b from-velvet-navy to-black">
+                <FadeInView>
+                    <h2 className="font-display text-5xl mb-6 text-foreground">Ready to Scale Your Team?</h2>
+                    <p className="font-mono text-muted-foreground mb-10 max-w-lg mx-auto">
+                        Let's match you with the perfect virtual workforce for your needs.
+                    </p>
+                    <Link to="/summon">
+                        <MagneticButton className="h-16 px-12 bg-regal-purple hover:bg-regal-purple/90 text-white font-display text-xl tracking-wider border border-white/20 transition-all">
+                            GET STARTED <RiArrowRightLine className="ml-2 inline" />
+                        </MagneticButton>
+                    </Link>
+                </FadeInView>
             </section>
         </div>
     );
