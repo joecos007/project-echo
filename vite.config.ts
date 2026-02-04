@@ -12,6 +12,6 @@ export default defineConfig({
     },
   },
   server: {
-    host: true,
+    host: process.env.VITE_DEV_HOST === 'true' ? true : '127.0.0.1',
   },
 })

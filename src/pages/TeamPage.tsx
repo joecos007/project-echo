@@ -217,7 +217,7 @@ export function TeamPage() {
                     <a href="mailto:careers@teamecho.com" className="inline-flex items-center gap-2 px-6 py-3 bg-neon-quill text-black font-display hover:bg-neon-quill/90 transition-colors">
                         <RiMailLine className="w-5 h-5" /> APPLY NOW
                     </a>
-                    <a href="#" className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-display hover:bg-white/5 transition-colors">
+                    <a href="https://linkedin.com/company/teamecho" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-display hover:bg-white/5 transition-colors">
                         <RiLinkedinBoxLine className="w-5 h-5" /> FOLLOW US
                     </a>
                 </div>

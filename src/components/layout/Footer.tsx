@@ -58,9 +58,9 @@ export function Footer() {
 
                 {/* Standard Links (Subtle) */}
                 <div className="flex gap-4 opacity-20 hover:opacity-100 transition-opacity duration-300 mt-2 grayscale hover:grayscale-0 scale-90">
-                    <a href="#" aria-label="Instagram"><RiInstagramFill className="w-4 h-4 hover:text-data-crimson transition-colors" /></a>
-                    <a href="#" aria-label="Twitter"><RiTwitterXFill className="w-4 h-4 hover:text-white transition-colors" /></a>
-                    <a href="#" aria-label="LinkedIn"><RiLinkedinBoxFill className="w-4 h-4 hover:text-regal-purple transition-colors" /></a>
+                    <a href="https://instagram.com/teamecho" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><RiInstagramFill className="w-4 h-4 hover:text-data-crimson transition-colors" /></a>
+                    <a href="https://twitter.com/teamecho" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><RiTwitterXFill className="w-4 h-4 hover:text-white transition-colors" /></a>
+                    <a href="https://linkedin.com/company/teamecho" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><RiLinkedinBoxFill className="w-4 h-4 hover:text-regal-purple transition-colors" /></a>
                 </div>
 
                 {/* Copyright */}

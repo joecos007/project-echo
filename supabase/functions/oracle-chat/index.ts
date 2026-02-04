@@ -34,6 +34,7 @@ Deno.serve(async (req: Request) => {
     // CORS Headers
     const corsHeaders = {
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
     };
 
@@ -42,7 +43,20 @@ Deno.serve(async (req: Request) => {
     }
 
     try {
+        // Validate API key
+        if (!OPENROUTER_API_KEY) {
+            throw new Error("OPENROUTER_API_KEY not configured");
+        }
+
         const { messages } = await req.json();
+
+        // Validate messages
+        if (!Array.isArray(messages) || messages.length === 0) {
+            return new Response(
+                JSON.stringify({ error: "Invalid messages format" }),
+                { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+            );
+        }
 
         // Prepare request to OpenRouter
         const chatReq = {

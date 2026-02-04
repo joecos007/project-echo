@@ -36,11 +36,20 @@ export function OracleInterface() {
         try {
             const response = await fetch(ORACLE_URL, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${supabaseConfig.anonKey}`
+                },
                 body: JSON.stringify({
                     messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content }))
                 })
             });
+
+            // Validate response before processing
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`API error (${response.status}): ${errorText}`);
+            }
 
             if (!response.body) throw new Error("No response body");
 
@@ -50,13 +59,18 @@ export function OracleInterface() {
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             let assistantContent = "";
+            let buffer = "";
 
             while (true) {
                 const { done, value } = await reader.read();
                 if (done) break;
 
-                const chunk = decoder.decode(value);
-                const lines = chunk.split("\n");
+                // Append to buffer to handle incomplete lines
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split("\n");
+
+                // Keep last incomplete line in buffer
+                buffer = lines.pop() || "";
 
                 for (const line of lines) {
                     if (line.startsWith("data: ")) {
@@ -74,7 +88,7 @@ export function OracleInterface() {
                                 });
                             }
                         } catch (e) {
-                            // Ignore parse errors for partial chunks
+                            // Ignore parse errors for malformed data
                         }
                     }
                 }
