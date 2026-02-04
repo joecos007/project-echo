@@ -31,15 +31,36 @@ TONE: Professional yet approachable. Confident and helpful. Never oversell - foc
 `;
 
 Deno.serve(async (req: Request) => {
-    // CORS Headers
+    // Allowed origins (add your production domain here)
+    const allowedOrigins = [
+        'http://localhost:5173',
+        'http://localhost:4173',
+        'http://127.0.0.1:5173',
+        'https://team-echo.com',
+        'https://www.team-echo.com',
+        // Add your deployment domain here when ready
+    ];
+
+    const origin = req.headers.get('origin') || '';
+    const isAllowedOrigin = allowedOrigins.some(allowed => origin.startsWith(allowed));
+
+    // CORS Headers with origin validation
     const corsHeaders = {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': isAllowedOrigin ? origin : allowedOrigins[0],
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
     };
 
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders });
+    }
+
+    // Block requests from unauthorized origins
+    if (!isAllowedOrigin) {
+        return new Response(
+            JSON.stringify({ error: 'Unauthorized origin' }),
+            { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
     }
 
     try {
