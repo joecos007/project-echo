@@ -1,31 +1,30 @@
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { HeroSection } from "@/components/sections/HeroSection";
-import { VisionSection } from "@/components/sections/VisionSection";
-import { TimelineSection } from "@/components/sections/TimelineSection";
-import { ProjectsSection } from "@/components/sections/ProjectsSection";
-import { ContactSection } from "@/components/sections/ContactSection";
-import { ParticleCanvas } from "@/components/effects/ParticleCanvas";
-import { CustomCursor } from "@/components/effects/CustomCursor";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Layout } from "@/components/layout/Layout";
+import { HomePage } from "@/pages/HomePage";
+import { GuildPage } from "@/pages/GuildPage";
+import { ServicesPage } from "@/pages/ServicesPage";
+import { ContactPage } from "@/pages/ContactPage";
+import { NotFoundPage } from "@/pages/NotFoundPage";
+import { ChroniclesPage } from "@/pages/ChroniclesPage";
+import { ScrollPage } from "@/pages/ScrollPage";
+import { TeamPage } from "@/pages/TeamPage";
 
-export function App() {
+function App() {
     return (
-        <div className="relative">
-            <CustomCursor />
-            <ParticleCanvas />
-
-            <Header />
-
-            <main>
-                <HeroSection />
-                <VisionSection />
-                <TimelineSection />
-                <ProjectsSection />
-                <ContactSection />
-            </main>
-
-            <Footer />
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="guild" element={<GuildPage />} />
+                    <Route path="art" element={<ServicesPage />} />
+                    <Route path="team" element={<TeamPage />} />
+                    <Route path="chronicles" element={<ChroniclesPage />} />
+                    <Route path="scroll" element={<ScrollPage />} />
+                    <Route path="summon" element={<ContactPage />} />
+                    <Route path="*" element={<NotFoundPage />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     );
 }
 
