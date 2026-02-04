@@ -38,6 +38,7 @@ Deno.serve(async (req: Request) => {
         'http://127.0.0.1:5173',
         'https://team-echo.com',
         'https://www.team-echo.com',
+        'https://project-echo-ivory.vercel.app',  // Vercel deployment
         // Add your deployment domain here when ready
     ];
 
