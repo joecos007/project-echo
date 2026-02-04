@@ -31,75 +31,84 @@ const FOUNDER: TeamMember = {
 };
 
 const TEAM_MEMBERS: TeamMember[] = [
+    // Leadership & Operations
+    {
+        name: "Miguel",
+        role: "Head of Operations",
+        image: miguelImg,
+        skills: ["Operations Management", "Technical Support", "Software & Tool Setup", "Process Documentation", "Team Oversight", "Quality Control"],
+        bio: "Overall Team Lead overseeing systems, strategy, and cross-team coordination. Manages internal workflows, software tools, and documentation to maintain high performance across the organization."
+    },
+
+    // Operations & Administration
     {
         name: "Jai",
-        role: "Operations Manager",
+        role: "Virtual Agent Operations Manager",
         image: jaiImg,
-        skills: ["Project Management", "Process Optimization", "Team Coordination", "Quality Assurance"],
-        bio: "Ensures smooth operations across all client accounts and manages our VA deployment pipeline."
+        skills: ["Virtual Agent Deployment", "Process Optimization", "Project Management", "Team Coordination"],
+        bio: "Ensures smooth day-to-day operations across all client accounts and manages the full virtual assistant deployment pipeline, focusing on optimizing processes and maintaining operational efficiency."
     },
     {
         name: "Celestin",
         role: "Lead Virtual Assistant",
         image: celestinImg,
-        skills: ["Executive Support", "Calendar Management", "Travel Booking", "Correspondence"],
-        bio: "Expert in high-level administrative support with experience supporting C-suite executives."
+        skills: ["Executive Support", "Calendar & Schedule Management", "Travel Coordination", "Administrative Leadership"],
+        bio: "Provides high-level administrative and executive support, specializing in assisting C-suite executives. Ensures executives stay organized, prepared, and focused on strategic priorities."
     },
-    {
-        name: "Angelu",
-        role: "Marketing Specialist",
-        image: angeluImg,
-        skills: ["Social Media", "Content Creation", "Email Marketing", "Brand Strategy"],
-        bio: "Creative marketer who helps clients build their brand presence across digital channels."
-    },
+
+    // Client & Revenue Teams
     {
         name: "Megan",
         role: "Client Success Manager",
         image: meganImg,
-        skills: ["Account Management", "Onboarding", "Performance Tracking", "Communication"],
-        bio: "Dedicated to ensuring every client gets the perfect VA match and ongoing support."
+        skills: ["Client Onboarding", "Account Management", "Performance Monitoring", "Relationship Management"],
+        bio: "Dedicated to delivering exceptional client experiences. Manages onboarding, matches clients with the right virtual assistants, and tracks performance to ensure long-term success."
     },
     {
         name: "Biane",
         role: "Sales Agent Lead",
         image: bianeImg,
-        skills: ["Cold Calling", "Lead Qualification", "CRM Management", "Sales Scripts"],
-        bio: "Leads our sales agent team, training VAs to drive revenue for client businesses."
+        skills: ["Sales Leadership", "Cold Calling", "Lead Qualification", "CRM Management", "Sales Training"],
+        bio: "Leads the sales agent team, training and guiding virtual assistants to generate and qualify leads while driving consistent revenue growth for clients."
     },
+
+    // Marketing & Growth
     {
-        name: "Audrea",
-        role: "Customer Support Lead",
-        image: audreaImg,
-        skills: ["Live Chat", "Ticket Resolution", "Empathy", "Product Knowledge"],
-        bio: "Expert in customer service excellence, training our support specialists."
-    },
-    {
-        name: "Mendy",
-        role: "Data Entry Specialist",
-        image: mendyImg,
-        skills: ["Spreadsheets", "Data Accuracy", "CRM Updates", "Document Processing"],
-        bio: "Detail-oriented professional ensuring data integrity across all projects."
-    },
-    {
-        name: "Anthony",
-        role: "Research Analyst",
-        image: anthonyImg,
-        skills: ["Market Research", "Competitor Analysis", "Report Writing", "Data Mining"],
-        bio: "Provides in-depth research support for clients making strategic decisions."
-    },
-    {
-        name: "Miguel",
-        role: "Tech Support VA",
-        image: miguelImg,
-        skills: ["IT Troubleshooting", "Software Setup", "Documentation", "Training"],
-        bio: "Technical VA specializing in software tools and platform management."
+        name: "Angelu",
+        role: "Marketing Specialist",
+        image: angeluImg,
+        skills: ["Digital Marketing", "Social Media Strategy", "Content Creation", "Email Marketing"],
+        bio: "Helps clients build strong brand visibility across digital platforms through creative and strategic marketing initiatives."
     },
     {
         name: "Kim",
         role: "Social Media Manager",
         image: kimImg,
-        skills: ["Instagram", "Facebook", "Content Scheduling", "Community Management"],
-        bio: "Keeps client social channels active and engaging with creative content."
+        skills: ["Instagram & Facebook Management", "Content Scheduling", "Community Engagement", "Brand Consistency"],
+        bio: "Manages and grows client social media accounts by creating engaging content, maintaining posting schedules, and fostering audience interaction."
+    },
+
+    // Support & Specialized Services
+    {
+        name: "Audrea",
+        role: "Customer Support Lead",
+        image: audreaImg,
+        skills: ["Customer Support Leadership", "Live Chat", "Ticket Resolution", "Service Quality Training"],
+        bio: "Leads the customer support team, ensuring excellent service delivery through effective communication, empathy, and fast issue resolution."
+    },
+    {
+        name: "Mendy",
+        role: "Data Entry Specialist",
+        image: mendyImg,
+        skills: ["Data Entry", "Spreadsheet Management", "CRM Updates", "Data Accuracy & Validation"],
+        bio: "Ensures accurate and reliable data management across all projects, maintaining clean records and up-to-date systems."
+    },
+    {
+        name: "Anthony",
+        role: "Research Analyst",
+        image: anthonyImg,
+        skills: ["Market Research", "Competitor Analysis", "Data Interpretation", "Report Writing"],
+        bio: "Provides detailed research and analytical support to help clients make informed business decisions."
     }
 ];
 
