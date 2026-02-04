@@ -1,6 +1,4 @@
-import { useRef } from "react";
 import { RiMailLine, RiLinkedinBoxLine } from "@remixicon/react";
-import { Link } from "react-router-dom";
 import { TextReveal, FadeInView, ParallaxSection } from "@/components/animations";
 import { useParallax } from "@/lib/hooks";
 

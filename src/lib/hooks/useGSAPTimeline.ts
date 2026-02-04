@@ -23,7 +23,7 @@ export function useGSAPTimeline(
     defaults?: gsap.TimelineVars,
     dependencies: DependencyList = []
 ) {
-    const timelineRef = useRef<gsap.core.Timeline>();
+    const timelineRef = useRef<gsap.core.Timeline | undefined>(undefined);
 
     const scope = useGSAPAnimation(() => {
         timelineRef.current = gsap.timeline(defaults);
